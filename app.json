@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "BudgetPlanner",
+    "slug": "BudgetPlanner",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "BudgetPlanner"
+}

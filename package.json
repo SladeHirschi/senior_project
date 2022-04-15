@@ -1,0 +1,40 @@
+{
+  "name": "budget_planner",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "expo start --dev-client",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "@expo/vector-icons": "^12.0.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@fortawesome/react-native-fontawesome": "^0.2.7",
+    "@react-native-google-signin/google-signin": "^7.1.0",
+    "@react-navigation/bottom-tabs": "^6.0.9",
+    "@react-navigation/native": "^6.0.10",
+    "@react-navigation/native-stack": "^6.2.5",
+    "axios": "^0.25.0",
+    "expo": "~44.0.2",
+    "expo-auth-session": "~3.5.0",
+    "expo-random": "~12.1.1",
+    "expo-secure-store": "~11.1.0",
+    "expo-splash-screen": "~0.14.1",
+    "expo-status-bar": "~1.2.0",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "react-google-button": "^0.7.2",
+    "react-native": "0.64.3",
+    "react-native-chart-kit": "^6.12.0",
+    "react-native-dotenv": "^3.3.1",
+    "react-native-elements": "^3.4.2",
+    "react-native-modal": "^13.0.1",
+    "react-native-safe-area-context": "3.3.2",
+    "react-native-screens": "~3.10.1",
+    "react-native-web": "0.17.1"
+  },
+  "private": true
+}
