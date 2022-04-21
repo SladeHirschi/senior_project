@@ -23,7 +23,6 @@ export default function HomeScreen({ navigation, route, setTitle }) {
 
     useEffect(() => {
         axios.get(BASE_URL + '/budgets').then(response => {
-            console.log(response.data)
             if (response.data) {
                 setBudgets(response.data)
             }

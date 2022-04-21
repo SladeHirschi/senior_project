@@ -25,9 +25,6 @@ export default function App() {
 						backgroundColor: COLORS.MainColor,
 					},
 					headerTintColor: '#fff',
-					// headerTitleStyle: {
-						// fontSize: '26'
-					// },
 					headerBackVisible: false
 				}}
 			>

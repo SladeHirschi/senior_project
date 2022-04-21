@@ -17,6 +17,7 @@ import Loading from '../../../assets/images/loading.gif'
 LogBox.ignoreAllLogs();
 
 export default function LoginScreen({ navigation, route }) {
+
     
     const [request, response, promptAsync] = Google.useAuthRequest({
         expoClientId: WEBCLIENTID,

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Modal, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlus, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import Modal from "react-native-modal";
 
 import { BASE_URL } from '@env'
-import {COLORS} from '../../../assets/colors.js'
+import { COLORS } from '../../../assets/colors.js'
 import normalize from '../../../assets/fontSize.js';
 import axios from 'axios';
 
@@ -42,7 +43,7 @@ export default function AddExpenseScreen({ route }) {
             alert("Amount must be filled.");
             return;
         }
-        let tempExpense = {...actualExpense};
+        let tempExpense = { ...actualExpense };
         tempExpense['expenseId'] = expenseId;
         axios.post(BASE_URL + '/expenses', tempExpense).then(response => {
             setShowActualExpenseModal(false);
@@ -60,69 +61,71 @@ export default function AddExpenseScreen({ route }) {
             </View>
 
             <View style={styles.body}>
-                <View style={{height: 'auto', alignItems: 'center', marginTop: '3%'}}>
-                    <Text style={{fontSize: normalize(26)}}>Actual Expenses</Text>
+                <View style={{ height: 'auto', alignItems: 'center', marginTop: '3%' }}>
+                    <Text style={{ fontSize: normalize(26) }}>Actual Expenses</Text>
                 </View>
 
-                <View style={{alignItems: 'center', marginTop: '10%'}}>
-                    <Text style={{fontSize: normalize(20), textDecorationLine: 'underline'}}>
+                <View style={{ alignItems: 'center', marginTop: '10%' }}>
+                    <Text style={{ fontSize: normalize(20), textDecorationLine: 'underline' }}>
                         {'Budget: $' + (budget.expenses ? budget.expenses.reduce((tot, expense) => { return tot + (expense.actualAmount ? parseInt(expense.actualAmount) : 0) }, 0) : 0) + '/$' + budget.totalBudget}
                     </Text>
                 </View>
 
-                <View style={{height: '100%'}}>
-                    <ScrollView style={{marginTop: '5%'}}>
+                <View style={{ height: '100%' }}>
+                    <ScrollView style={{ marginTop: '5%' }}>
                         {budget.expenses &&
                             budget.expenses.map((expense, index) => {
                                 return (
                                     <View key={index} style={styles.card}>
-                                        <Text style={{fontSize: normalize(18)}}>{expense.name}</Text>
-                                        <Text 
+                                        <Text style={{ fontSize: normalize(18) }}>{expense.name}</Text>
+                                        <Text
                                             style={{
-                                                fontSize: normalize(18), 
-                                                color: expense.amount < expense.actualAmount ? 'red' : 'green'
+                                                fontSize: normalize(18),
+                                                color: parseInt(expense.actualAmount) > expense.amount ? 'red' : 'green'
                                             }}
                                         >
                                             {'$' + (expense.actualAmount ? expense.actualAmount : 0) + '/$' + expense.amount}
                                         </Text>
-                                        <TouchableOpacity 
+                                        <TouchableOpacity
                                             onPress={() => openActualExpenseModal(expense)}
-                                            style={{backgroundColor: 'lightgray', padding: '1%', borderRadius: 5}}>
-                                            <FontAwesomeIcon icon={faPlus} size={40} color={'#1a1a1a'}/>
+                                            style={{ backgroundColor: 'lightgray', padding: '1%', borderRadius: 5 }}>
+                                            <FontAwesomeIcon icon={faPlus} size={40} color={'#1a1a1a'} />
                                         </TouchableOpacity>
                                     </View>
                                 )
                             })
-                        
+
                         }
                     </ScrollView>
                 </View>
                 {showActualExpenseModal &&
-                    <View style={styles.modalContainer}>
-                        <View style={styles.modal}>
-                            <Modal
-                                animationType="slide"
-                                transparent={true}
-                            >
-                                <TouchableOpacity style={{top: 350, width: '23%', alignSelf: 'flex-end'}} onPress={() => {setShowActualExpenseModal(false); setActualExpense({}); setExpenseId('')}}>
-                                    <FontAwesomeIcon icon={faTimesCircle} size={25} color={'gray'} />
-                                </TouchableOpacity>
-                                <TextInput 
-                                    style={{...styles.totalInput, top: 380, width: '50%', alignSelf: 'center', fontWeight: 'bold'}} 
-                                    placeholder='Expense amount: ($200)'
-                                    keyboardType='numeric'
-                                    value={(actualExpense && actualExpense.amount) && '$' + actualExpense.amount}
-                                    onChangeText={text => setActualExpense({...actualExpense, amount: text.replaceAll('$', '')})}
-                                />
-                                {(actualExpense.amount ) ? 
-                                    <TouchableOpacity
-                                        style={{ borderRadius: 10, justifyContent: 'center', alignItems: 'center', marginTop: '100%', flex: 0.08, backgroundColor: COLORS.SecondaryColor, width: '20%', left: '40%' }}
-                                        onPress={addActualExpense}
-                                    >
-                                        <Text>Submit</Text>
-                                    </TouchableOpacity> : null}
-                            </Modal>
-                        </View>
+                    <View>
+                        <Modal
+                            style={{ justifyContent: 'flex-start', backgroundColor: 'white', alignSelf: 'center', width: '75%', flex: 0.3, marginTop: '80%', borderRadius: 10, padding: '5%' }}
+                            animationIn="slideInUp"
+                            backdropOpacity={0.7}
+                            isVisible={true}
+                            swipeDirection={['down', 'left']}
+                            onSwipeComplete={() => navigation.navigate('Tabs', { screen: 'Home' })}
+                        >
+                            <TouchableOpacity style={{alignSelf: 'flex-end' }} onPress={() => { setShowActualExpenseModal(false); setActualExpense({}); setExpenseId('') }}>
+                                <FontAwesomeIcon icon={faTimesCircle} size={25} color={'gray'} />
+                            </TouchableOpacity>
+                            <TextInput
+                                style={{ marginTop: '5%', fontSize: normalize(16), width: '100%', alignSelf: 'center', fontWeight: 'bold' }}
+                                placeholder='Expense amount: ($200)'
+                                keyboardType='numeric'
+                                value={(actualExpense && actualExpense.amount) && '$' + actualExpense.amount}
+                                onChangeText={text => setActualExpense({ ...actualExpense, amount: text.replaceAll('$', '') })}
+                            />
+                            {(actualExpense && actualExpense.amount) ?
+                                <TouchableOpacity
+                                    style={{ borderRadius: 10, alignSelf: 'center', marginTop: '5%', justifyContent: 'center', alignItems: 'center', flex: 0.5, backgroundColor: COLORS.SecondaryColor, width: '50%'}}
+                                    onPress={addActualExpense}
+                                >
+                                    <Text>Submit</Text>
+                                </TouchableOpacity> : null}
+                        </Modal>
                     </View>
                 }
             </View>

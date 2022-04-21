@@ -47,7 +47,6 @@ export default function CreateScreen({ navigation, setTitle }) {
             alert("Name must be filled.");
             return;
         }
-        console.log("Here: ", selectedExpense)
         if (selectedExpense === null) {
             let tempExpense = {name: expense.name, amount: expense.amount};
             setExpenses([...expenses, tempExpense]);
@@ -76,10 +75,8 @@ export default function CreateScreen({ navigation, setTitle }) {
     function submitBudget() {
         setLoading(true)
         let tempBudget = {...budget};
-        console.log("expenses: ", expenses)
         let tempExpenses = [...expenses];
         tempBudget['expenses'] = tempExpenses;
-        console.log(tempBudget)
         axios.post(BASE_URL + '/budgets', tempBudget).then(response => {
             setLoading(false);
             setBudget({});
